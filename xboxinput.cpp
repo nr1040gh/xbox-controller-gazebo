@@ -92,13 +92,108 @@ int main(){
         input = mapping[code];
 
         switch (code){
+            /*
+            case 0:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            case 1:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            case 2:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            case 3:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            case 4:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            case 5:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            */
+            case 16:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            case 17:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
             case 304:
                 std::cout << "type: JS" << e.type << std::endl;
                 std::cout << "Input: " << input << std::endl;
                 std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            case 305:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            case 307:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            case 308:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            case 314:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            case 315:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            case 310:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            case 311:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            case 316:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            case 317:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+            case 318:
+                std::cout << "type: JS" << e.type << std::endl;
+                std::cout << "Input: " << input << std::endl;
+                std::cout << "value: " << e.value << std::endl;
+                std::cout << std::endl;
+
+            
         }
         
-            
+        
 
         
 
