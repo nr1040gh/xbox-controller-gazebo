@@ -163,7 +163,7 @@ int main(){
     Digital x = Digital("X",0);
     Digital y = Digital("Y",0);
     Digital start = Digital("START",0);
-    Digital select = Digital("SELECT",0);
+    Digital selec = Digital("SELECT",0);
     Digital middle = Digital("MIDDLE",0);
     Digital rb = Digital("RB",0);
     Digital lb = Digital("LB",0);
@@ -246,7 +246,7 @@ int main(){
                 y = Digital(input,e.value);
                 
             case 314:
-                select = Digital(input,e.value);
+                selec = Digital(input,e.value);
                 
             case 315:
                 start = Digital(input,e.value);
@@ -273,7 +273,7 @@ int main(){
         std::cout << ls_x << "  " << ls_y << "  " << rs_x << "  " << rs_y << "  " <<
         a << "  " << b << "  " << x  << "  " << y  << "  " << lt << "  " << rt << "  "
         << lb << "  " << rb << "  " << dpad_x << "  " << dpad_y << "  " << rs << "  "
-        << ls << "  " << start << "  " << select << "  " << middle << std::endl;
+        << ls << "  " << start << "  " << selec << "  " << middle << std::endl;
 
     }
 
