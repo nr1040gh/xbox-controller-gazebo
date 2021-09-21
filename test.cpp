@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include <cmath>
+#include <iomanip> //for setw function
 
 //https://stackoverflow.com/questions/16695432/input-event-structure-description-from-linux-input-h
 
@@ -72,9 +73,10 @@ class Digital
             return input;
         }
 
+
 };
 
-std::ostream& operator << (std::ostream& os, Digital digi)
+std::ostream& operator << (std::ostream& os, Digital& digi)
 {
     os << digi.getInput() << ": " << digi.getValue();
     return os;
@@ -86,24 +88,36 @@ class Analog : public Digital
 {
     private:
         int deadzone; 
+        int input;
+        int value;
+        int _width;
 
     public:
+        bool isRegistered;
+
         //https://www.learncpp.com/cpp-tutorial/constructors-and-initialization-of-derived-classes/
-        Analog(std::string input, int value, int deadzone)
+        Analog(std::string input, int value, int deadzone, int width=0)
             : Digital{ input, value }
             , deadzone{ deadzone }
+            , _width{ width }
         {      
             if (std::abs(value) >= deadzone)
                 isRegistered = true;
             else
                 isRegistered = false;
         }
-        bool isRegistered;
+
+        int getWidth()
+        {
+            return _width;
+        }
+        
+
 };
 
-std::ostream& operator << (std::ostream& os, Analog ana)
+std::ostream& operator << (std::ostream& os, Analog& ana)
 {
-    os << ana.getInput() << ": " << ana.getValue();
+    os << ana.getInput() << ": " << std::setw(ana.getWidth()) << ana.getValue();
     return os;
 }
 
@@ -147,17 +161,20 @@ int main(){
     int code;
     std::string input;
     int deadzone = 6000; //calibrated based on testing my controller only - move this further out of the function
-
+    
+    //Only used for std output purposes
+    int stick_width = 6;
+    int trigger_width = 3;
 
 
     //initialize buttons and sticks
     // Classes probably aren't the best here but it's for practice
-    Analog ls_x = Analog("LS_X",0,deadzone);
-    Analog ls_y = Analog("LS_Y",0,deadzone);
-    Analog lt = Analog("LT",0,0);
-    Analog rs_x = Analog("RS_X",0,deadzone);
-    Analog rs_y = Analog("RS_Y",0,deadzone);
-    Analog rt = Analog("RT",0,0);
+    Analog ls_x = Analog("LS_X",0,deadzone,stick_width);
+    Analog ls_y = Analog("LS_Y",0,deadzone,stick_width);
+    Analog lt = Analog("LT",0,0,trigger_width);
+    Analog rs_x = Analog("RS_X",0,deadzone,stick_width);
+    Analog rs_y = Analog("RS_Y",0,deadzone,stick_width);
+    Analog rt = Analog("RT",0,0,trigger_width);
     Digital a = Digital("A",0);
     Digital b = Digital("B",0);
     Digital x = Digital("X",0);
@@ -173,7 +190,6 @@ int main(){
     Digital dpad_y = Digital("DPAD_Y",0);
 
 
-
     while (read(fd, &e, sizeof(e))){
         //if (e.type == EV_KEY){
             //std::cout << "type: KEY" << e.type << std::endl;
@@ -181,35 +197,40 @@ int main(){
         //}
         code = e.code;
         input = mapping[code];
-
+        //std::cout << "\n" << code << std::endl;
         //Apply dead zones for control sticks - If it's not outside deadzone, continue checking for buttons
-        if (code <= 2 || (code >= 3 && code <= 4))
+        if (code <= 1 || (code >= 3 && code <= 4))
         {
             
             switch (code)
             {
 
             case 0: 
-                ls_x = Analog(input,e.value,deadzone);
+                ls_x = Analog(input,e.value,deadzone,stick_width);
                 if (!ls_x.isRegistered)
                 {
                     ls_x.setValue(0);
                 }
+                break;
 
             case 1:
-                ls_y = Analog(input,e.value,deadzone);
+                ls_y = Analog(input,e.value,deadzone,stick_width);
                 if (!ls_y.isRegistered)
                 {
                     ls_y.setValue(0);
                 }
+                break;
+
             case 3:
-                rs_x = Analog(input,e.value,deadzone);
+                rs_x = Analog(input,e.value,deadzone,stick_width);
                 if (!rs_x.isRegistered)
                 {
                     rs_x.setValue(0);
                 }
+                break;
+
             case 4:
-                rs_y = Analog(input,e.value,deadzone);
+                rs_y = Analog(input,e.value,deadzone,stick_width);
                 if (!rs_y.isRegistered)
                 {
                     rs_y.setValue(0);
@@ -219,52 +240,66 @@ int main(){
         
         else
         {
+
             switch (code){
             
             case 2:
-                lt = Analog(input,e.value,0);         
+                lt.setValue(e.value); //lt = Analog(input,e.value,0);         
 
             case 5:
-                rt = Analog(input,e.value,0);
+                rt.setValue(e.value); // = Analog(input,e.value,0);
+                break;
             
             case 16:
-                dpad_x = Digital(input,e.value);
+                dpad_x.setValue(e.value);// = Digital(input,e.value);
+                break;
 
             case 17:
-                dpad_y = Digital(input,e.value);
+                dpad_y.setValue(e.value);// = Digital(input,e.value);
+                break;
                 
             case 304:
-                a = Digital(input,e.value);
+                a.setValue(e.value);// = Digital(input,e.value);
+                break;
 
             case 305:
-                b = Digital(input,e.value);
+                b.setValue(e.value);// = Digital(input,e.value);
+                break;
 
             case 307:
-                x = Digital(input,e.value);
+                x.setValue(e.value);// = Digital(input,e.value);
+                break;
                 
             case 308:
-                y = Digital(input,e.value);
+                y.setValue(e.value);// = Digital(input,e.value);
+                break;
                 
             case 314:
-                selec = Digital(input,e.value);
+                selec.setValue(e.value);// = Digital(input,e.value);
+                break;
                 
             case 315:
-                start = Digital(input,e.value);
+                start.setValue(e.value);// = Digital(input,e.value);
+                break;
                 
             case 310:
-                lb = Digital(input,e.value);
+                lb.setValue(e.value);// = Digital(input,e.value);
+                break;
                 
             case 311:
-                rb = Digital(input,e.value);
+                rb.setValue(e.value);// = Digital(input,e.value);
+                break;
                 
             case 316:
-                middle = Digital(input,e.value);
+                middle.setValue(e.value);// = Digital(input,e.value);
+                break;
                 
             case 317:
-                ls = Digital(input,e.value);
+                ls.setValue(e.value);// = Digital(input,e.value);
+                break;
                 
             case 318:
-                rs = Digital(input,e.value);
+                rs.setValue(e.value);// = Digital(input,e.value);
                 
             }
         }
