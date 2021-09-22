@@ -48,14 +48,16 @@ class Digital
     private:
         std::string input;
         int value;
+        int _width;
 
         
 
     public:
-        Digital(std::string input, int value)
+        Digital(std::string input, int value, int width=0)
         {
             this->input = input;
             this->value = value;
+            _width = width;
         }
 
         void setValue(int newValue)
@@ -73,12 +75,17 @@ class Digital
             return input;
         }
 
+        int getWidth()
+        {
+            return _width;
+        }
+
 
 };
 
 std::ostream& operator << (std::ostream& os, Digital& digi)
 {
-    os << digi.getInput() << ": " << digi.getValue();
+    os << digi.getInput() << ": " << std::setw(digi.getWidth()) << digi.getValue();
     return os;
 }
 
@@ -88,7 +95,7 @@ class Analog : public Digital
 {
     private:
         int deadzone; 
-        int input;
+        std::string input;
         int value;
         int _width;
 
@@ -96,21 +103,20 @@ class Analog : public Digital
         bool isRegistered;
 
         //https://www.learncpp.com/cpp-tutorial/constructors-and-initialization-of-derived-classes/
-        Analog(std::string input, int value, int deadzone, int width=0)
-            : Digital{ input, value }
-            , deadzone{ deadzone }
-            , _width{ width }
+        Analog(std::string input, int value, int deadzone=0, int width=0)
+            : Digital{ input, value, width }
+            //, deadzone{ deadzone }
+            //, _width{ width }
         {      
+            this->deadzone=deadzone;
+
             if (std::abs(value) >= deadzone)
                 isRegistered = true;
             else
                 isRegistered = false;
         }
 
-        int getWidth()
-        {
-            return _width;
-        }
+        
         
 
 };
@@ -165,6 +171,7 @@ int main(){
     //Only used for std output purposes
     int stick_width = 6;
     int trigger_width = 3;
+    int dpad_width = 2;
 
 
     //initialize buttons and sticks
@@ -186,8 +193,8 @@ int main(){
     Digital lb = Digital("LB",0);
     Digital rs = Digital("RS",0);
     Digital ls = Digital("LS",0);
-    Digital dpad_x = Digital("DPAD_X",0);
-    Digital dpad_y = Digital("DPAD_Y",0);
+    Digital dpad_x = Digital("DPAD_X",0,dpad_width);
+    Digital dpad_y = Digital("DPAD_Y",0,dpad_width);
 
 
     while (read(fd, &e, sizeof(e))){
@@ -244,7 +251,8 @@ int main(){
             switch (code){
             
             case 2:
-                lt.setValue(e.value); //lt = Analog(input,e.value,0);         
+                lt.setValue(e.value); //lt = Analog(input,e.value,0);   
+                break;      
 
             case 5:
                 rt.setValue(e.value); // = Analog(input,e.value,0);
