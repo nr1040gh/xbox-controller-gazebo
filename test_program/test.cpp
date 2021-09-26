@@ -42,7 +42,7 @@
 // To do: create testing file/program
 
 
-class Digital
+class Button
 {
 
     private:
@@ -83,47 +83,94 @@ class Digital
 
 };
 
-std::ostream& operator << (std::ostream& os, Digital& digi)
+std::ostream& operator << (std::ostream& os, Button& but)
 {
-    os << digi.getInput() << ": " << std::setw(digi.getWidth()) << digi.getValue();
+    os << but.getInput() << ": " << std::setw(but.getWidth()) << but.getValue();
     return os;
 }
 
 
 
-class Analog : public Digital
+class Stick : public Button
 {
     private:
         int deadzone; 
         std::string input;
         int value;
         int _width;
+        bool invert;
 
     public:
         bool isRegistered;
 
         //https://www.learncpp.com/cpp-tutorial/constructors-and-initialization-of-derived-classes/
-        Analog(std::string input, int value, int deadzone=0, int width=0)
-            : Digital{ input, value, width }
+        Stick(std::string input, int value, int deadzone=0, invert=false, int width=0)
+            : Button{ input, value, width }
             //, deadzone{ deadzone }
             //, _width{ width }
         {      
             this->deadzone=deadzone;
+            this->invert=invert;
 
             if (std::abs(value) >= deadzone)
                 isRegistered = true;
             else
                 isRegistered = false;
         }
-
-        
-        
+    
+        void setValue(int newValue)
+        {
+            if (invert)
+            {
+                value = -newValue;
+            }
+            else
+            {
+                value = newValue;
+            }
+            
+        }
 
 };
 
-std::ostream& operator << (std::ostream& os, Analog& ana)
+std::ostream& operator << (std::ostream& os, Stick& stick)
 {
-    os << ana.getInput() << ": " << std::setw(ana.getWidth()) << ana.getValue();
+    os << stick.getInput() << ": " << std::setw(stick.getWidth()) << stick.getValue();
+    return os;
+}
+
+
+
+class Trigger : public Button
+{
+private:
+    int deadzone;
+    std::string input;
+    int value;
+    int _width;
+    
+public:
+    bool isRegistered;
+    
+    //https://www.learncpp.com/cpp-tutorial/constructors-and-initialization-of-derived-classes/
+    Stick(std::string input, int value, int deadzone=0, int width=0)
+    : Button{ input, value, width }
+    //, deadzone{ deadzone }
+    //, _width{ width }
+    {
+        this->deadzone=deadzone;
+        
+        if (std::abs(value) >= deadzone)
+            isRegistered = true;
+        else
+            isRegistered = false;
+    }
+    
+};
+
+std::ostream& operator << (std::ostream& os, Trigger& trig)
+{
+    os << trig.getInput() << ": " << std::setw(trig.getWidth()) << trig.getValue();
     return os;
 }
 
@@ -176,25 +223,25 @@ int main(){
 
     //initialize buttons and sticks
     // Classes probably aren't the best here but it's for practice
-    Analog ls_x = Analog("LS_X",0,deadzone,stick_width);
-    Analog ls_y = Analog("LS_Y",0,deadzone,stick_width);
-    Analog lt = Analog("LT",0,0,trigger_width);
-    Analog rs_x = Analog("RS_X",0,deadzone,stick_width);
-    Analog rs_y = Analog("RS_Y",0,deadzone,stick_width);
-    Analog rt = Analog("RT",0,0,trigger_width);
-    Digital a = Digital("A",0);
-    Digital b = Digital("B",0);
-    Digital x = Digital("X",0);
-    Digital y = Digital("Y",0);
-    Digital start = Digital("START",0);
-    Digital selec = Digital("SELECT",0);
-    Digital middle = Digital("MIDDLE",0);
-    Digital rb = Digital("RB",0);
-    Digital lb = Digital("LB",0);
-    Digital rs = Digital("RS",0);
-    Digital ls = Digital("LS",0);
-    Digital dpad_x = Digital("DPAD_X",0,dpad_width);
-    Digital dpad_y = Digital("DPAD_Y",0,dpad_width);
+    Stick ls_x = Stick("LS_X",0,deadzone,false,stick_width);
+    Stick ls_y = Stick"LS_Y",0,deadzone,true,stick_width);
+    Trigger lt = Trigger("LT",0,0,trigger_width);
+    Stick rs_x = Stick("RS_X",0,deadzone,false,stick_width);
+    Stick rs_y = Stick("RS_Y",0,deadzone,true,stick_width);
+    Trigger rt = Trigger("RT",0,0,trigger_width);
+    Button a = Button("A",0);
+    Button b = Button("B",0);
+    Button x = Button("X",0);
+    Button y = Button("Y",0);
+    Button start = Button("START",0);
+    Button selec = Button("SELECT",0);
+    Button middle = Button("MIDDLE",0);
+    Button rb = Button("RB",0);
+    Button lb = Button("LB",0);
+    Button rs = Button("RS",0);
+    Button ls = Button("LS",0);
+    Button dpad_x = Button("DPAD_X",0,dpad_width);
+    Button dpad_y = Button("DPAD_Y",0,dpad_width);
 
 
     while (read(fd, &e, sizeof(e))){
