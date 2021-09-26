@@ -40,6 +40,45 @@
     // Break into header and cpp files
 // To do: create testing file/program
 
+
+class Digital
+{
+
+    private:
+        std::string input;
+        int value;
+
+        
+
+    public:
+        Digital(std::string input, int value)
+        {
+            this->input = input;
+            this->value = value;
+        }
+
+        std::ostream& operator <<(std::ostream& os)
+        {
+            os << input << ": " << value;
+            return os;
+        }
+};
+
+class Analog : public Digital
+{
+    private:
+        int deadzone; 
+
+    public:
+        //https://www.learncpp.com/cpp-tutorial/constructors-and-initialization-of-derived-classes/
+        Analog(std::string input, int value, int deadzone)
+            : Digital{ input, value }
+            , deadzone{ deadzone }
+        {      
+        }
+};
+
+
 int main(){
     //https://www.kernel.org/doc/html/v5.3/input/joydev/joystick-api.html
     //event found using: cat /proc/bus/input/devices
